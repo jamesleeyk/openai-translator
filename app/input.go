@@ -7,9 +7,9 @@ import (
 	"os"
 )
 
-func getInputFromCommandLine() string {
+func getInputFromFile(fileName string) string {
 	// Open the text file
-	file, err := os.Open("input.txt")
+	file, err := os.Open(fileName)
 	if err != nil {
 		log.Fatalf("Error opening the file: %v", err)
 	}

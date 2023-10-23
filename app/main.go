@@ -1,48 +1,42 @@
 package main
 
 import (
-	"flag"
+	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 )
 
-// flags
-// if --vv, use block responses
-var isVoiceVox = flag.Bool("vv", false, "Use voicevox models")
-var characterVoiceId = flag.String("cid", "13", "Character voice id")
-
 // Env vars
 var openAiApiKey = "OPENAI_API_KEY"
-var voiceVoxApiUrl = "VOICEVOX_API_URL"
 
 func main() {
 	loadEnv()
+	
+	
 	openAiKey := os.Getenv(openAiApiKey)
-	vvApiUrl := os.Getenv(voiceVoxApiUrl)
 	if openAiKey == "" {
 		log.Fatalf("%s not set", openAiApiKey)
 	}
-	flag.Parse()
-	chatClient := CreateChatClient(openAiKey, *isVoiceVox)
-	audioPlayerClient := CreateAudioPlayerClient()
-	// To James:
-	// I hope this comment finds you well.
-	// Please consider the following:
-	// delete the stream-related code
-	// remove this if statement and just call the code inside "voiceChat"
-	// by default.
-	// Best wishes,
-	// Rob S.
-	if *isVoiceVox {
-		if vvApiUrl == "" {
-			log.Fatalf("%s not set", voiceVoxApiUrl)
+	st := time.Now()
+	chatClient := CreateChatClient(openAiKey)
+	fmt.Print("Reading input from file")
+	allRawText := getInputFromFile("input.txt")
+	fmt.Printf("Time to read input: %d", time.Since(st) / 10000)
+	chatClient.setFixedInput()
+	fmt.Printf("Time to set fixed input: %d", time.Since(st) / 10000)
+	for {
+		// parse raw text 1000 char
+		// send into chat gpt
+		response, err := chatClient.SendMessage(allRawText)
+		if err != nil {
+			fmt.Printf("ChatCompletionStream Error: %v\n", err)
+			break
 		}
-		voiceClient := CreateVoiceVoxClient(vvApiUrl, *characterVoiceId)
-		voiceChat(voiceClient, chatClient, audioPlayerClient)
-	} else {
-		stream(chatClient)
+		writeToFile(response)
+		break;
 	}
 }
 
