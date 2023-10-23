@@ -57,9 +57,7 @@ func (c *ChatGPTClient) makeChatGPTRequest(query openai.ChatCompletionRequest) (
 }
 
 func (c *ChatGPTClient) setFixedInput() {
-	initialPromptString := `You are an English novel writer that writes fantasy fiction.
-	
-	Once you have Korean text, you will translate it into English, preserving as much white space and as many line breaks as possible.`;
+	initialPromptString := "You are an English novel writer that writes fantasy fiction. Translate any text you receive  into English, preserving as much white space and as many line breaks as possible.";
 	// referenceText := getInputFromFile("sample_translation.txt")
 	firstInputPrompt := openai.ChatCompletionMessage{
 		Role:    openai.ChatMessageRoleSystem,
