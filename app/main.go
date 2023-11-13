@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -15,29 +14,35 @@ var openAiApiKey = "OPENAI_API_KEY"
 func main() {
 	loadEnv()
 	
-	
 	openAiKey := os.Getenv(openAiApiKey)
 	if openAiKey == "" {
 		log.Fatalf("%s not set", openAiApiKey)
 	}
-	st := time.Now()
 	chatClient := CreateChatClient(openAiKey)
-	fmt.Print("Reading input from file")
-	allRawText := getInputFromFile("input.txt")
-	fmt.Printf("Time to read input: %d", time.Since(st) / 10000)
 	chatClient.setFixedInput()
-	fmt.Printf("Time to set fixed input: %d", time.Since(st) / 10000)
+	scannerInstance := NewScannerHolder("input.txt")
+	numLinesToRead := 20
 	for {
-		// parse raw text 1000 char
-		// send into chat gpt
-		response, err := chatClient.SendMessage(allRawText)
+		endLoop := false;
+		rawText, err := getInputFromFile(scannerInstance, numLinesToRead)
 		if err != nil {
-			fmt.Printf("ChatCompletionStream Error: %v\n", err)
-			break
+			log.Fatalf("Scanner error: %v\n", err)
+		} else if rawText == "" {
+			endLoop = true;
 		}
+		response, err := chatClient.SendMessage(rawText)
+		if err != nil {
+			log.Fatalf("Message Error: %v\n", err)
+		}
+		// fmt.Printf("msg: %s\nres %s\n", rawText, response)
+		fmt.Println("Writing to file...")
 		writeToFile(response)
-		break;
+		fmt.Println("Finished file write")
+		if endLoop {
+			break;
+		}
 	}
+	fmt.Print("Done!!!")
 }
 
 func loadEnv() {

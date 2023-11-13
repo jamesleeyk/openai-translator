@@ -1,30 +1,21 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 )
 
 func writeToFile(message string) {
-	// Create or open a text file for writing
-	file, err := os.Create("output.txt")
+	// Write the string to a file called output.txt
+	// create the file if it does not exist
+	// else, append to the file
+	f, err := os.OpenFile("output.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		fmt.Println("Error creating the file:", err)
-		return
+		fmt.Println(err)
 	}
-	defer file.Close() // Defer closing the file until the function returns.
-
-	// Create a buffered writer for efficient writing
-	writer := bufio.NewWriter(file)
-
-	// Write to the file
-	_, err = writer.WriteString(message)
-	if err != nil {
-		fmt.Println("Error writing to the file:", err)
-		return
+	defer f.Close()
+	_, err2 := f.WriteString(message + "\n")
+	if err2 != nil {
+		fmt.Println(err2)
 	}
-
-	// Flush the writer to ensure data is written to the file
-	writer.Flush()
 }
