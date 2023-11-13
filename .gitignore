@@ -2,3 +2,6 @@
 .idea/
 **/*.wav
 .DS_Store
+input.txt
+output.txt
+```
