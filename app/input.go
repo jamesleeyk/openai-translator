@@ -18,7 +18,6 @@ func NewScannerHolder(fileName string) *ScannerHolder {
 		log.Fatalf("Error opening the file: %v", err)
 	}
 	// defer file.Close() // Defer closing the file until the function returns.
-
 	// Create a scanner to read the file line by line
 	scanner := bufio.NewScanner(file)
 	return &ScannerHolder{Scanner: scanner}
@@ -37,9 +36,15 @@ func getInputFromFile(sh *ScannerHolder, numLines int) (string, error) {
 			}
 		}
 		text := sh.Scanner.Text()
-		// if (i == numLines - 1) && (!strings.HasSuffix(text, ".") || !strings.HasSuffix(text, "!") || !strings.HasSuffix(text, "?")) {
-		// 	i--
-		// }
+		// if last read character is not a punctuation, such as '.', '!', '?', read another line
+		if i == numLines - 1 {
+			if strings.HasSuffix(text, ".") || strings.HasSuffix(text, "!") || strings.HasSuffix(text, "?") {
+				lines = append(lines, text)
+				break;
+			} else {
+				i--
+			}
+		}
 		lines = append(lines, text)
 	}
 	return strings.Join(lines, "\n"), nil

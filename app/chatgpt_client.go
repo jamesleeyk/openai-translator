@@ -25,7 +25,7 @@ func CreateChatClient(apiKey string) *ChatGPTClient {
 }
 
 func (c *ChatGPTClient) setFixedInput() {
-	initialPromptString := "You are an English novel writer that writes fantasy fiction. Once you have Korean text, you will translate it into English.";
+	initialPromptString := "You are an English novel writer that writes fantasy fiction. Once you have Korean text, you will translate it into English. Do not add any new information when translating.";
 	firstInputPrompt := openai.ChatCompletionMessage{
 		Role:    openai.ChatMessageRoleSystem,
 		Content: initialPromptString,

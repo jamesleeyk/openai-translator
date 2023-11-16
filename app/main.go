@@ -34,10 +34,10 @@ func main() {
 		if err != nil {
 			log.Fatalf("Message Error: %v\n", err)
 		}
-		// fmt.Printf("msg: %s\nres %s\n", rawText, response)
-		fmt.Println("Writing to file...")
+		// fmt.Printf("scanned text: %s", rawText)
+		// fmt.Println("Writing to file...")
 		writeToFile(response)
-		fmt.Println("Finished file write")
+		// fmt.Println("Finished file write")
 		if endLoop {
 			break;
 		}
