@@ -54,7 +54,7 @@ func (c *ChatGPTClient) addNewMessageToChatHistory(message string, role string) 
 func (c *ChatGPTClient) SendMessage(msg string) (string, error) {
 	c.addNewMessageToChatHistory(msg, openai.ChatMessageRoleUser)
 	queryToSend := openai.ChatCompletionRequest{
-		Model:     openai.GPT3Dot5Turbo16K,
+		Model:     openai.GPT4,
 		Messages:  append(c.fixedInput, c.chatHistory...),
 	}
 	response, err := c.makeChatGPTRequest(queryToSend)
