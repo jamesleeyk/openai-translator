@@ -25,7 +25,7 @@ func CreateChatClient(apiKey string) *ChatGPTClient {
 }
 
 func (c *ChatGPTClient) setFixedInput() {
-	initialPromptString := "You are an English novel writer that writes fantasy fiction. Once you have Korean text, you will translate it into English. Do not add any new information when translating.";
+	initialPromptString := "Translate the following chapter from a Korean light novel into English in the past tense:";
 	firstInputPrompt := openai.ChatCompletionMessage{
 		Role:    openai.ChatMessageRoleSystem,
 		Content: initialPromptString,
@@ -54,7 +54,7 @@ func (c *ChatGPTClient) addNewMessageToChatHistory(message string, role string) 
 func (c *ChatGPTClient) SendMessage(msg string) (string, error) {
 	c.addNewMessageToChatHistory(msg, openai.ChatMessageRoleUser)
 	queryToSend := openai.ChatCompletionRequest{
-		Model:     openai.GPT4,
+		Model:     openai.GPT4TurboPreview,
 		Messages:  append(c.fixedInput, c.chatHistory...),
 	}
 	response, err := c.makeChatGPTRequest(queryToSend)

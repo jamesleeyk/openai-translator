@@ -23,24 +23,19 @@ func main() {
 	scannerInstance := NewScannerHolder("input.txt")
 	numLinesToRead := 20
 	for {
-		endLoop := false;
 		rawText, err := getInputFromFile(scannerInstance, numLinesToRead)
 		if err != nil {
 			log.Fatalf("Scanner error: %v\n", err)
-		} else if rawText == "" {
-			endLoop = true;
+		} else if err == nil && rawText == "" {
+			fmt.Println("Reached end of file.")
+			break;
 		}
 		response, err := chatClient.SendMessage(rawText)
 		if err != nil {
 			log.Fatalf("Message Error: %v\n", err)
 		}
 		// fmt.Printf("scanned text: %s", rawText)
-		// fmt.Println("Writing to file...")
 		writeToFile(response)
-		// fmt.Println("Finished file write")
-		if endLoop {
-			break;
-		}
 	}
 	fmt.Print("Done!!!")
 }
