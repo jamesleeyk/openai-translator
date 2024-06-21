@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/ebitengine/oto/v3 v3.0.0
 	github.com/joho/godotenv v1.5.1
-	github.com/sashabaranov/go-openai v1.19.3
+	github.com/sashabaranov/go-openai v1.26.0
 )
 
 require (

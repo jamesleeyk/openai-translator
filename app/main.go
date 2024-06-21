@@ -21,7 +21,7 @@ func main() {
 	chatClient := CreateChatClient(openAiKey)
 	chatClient.setFixedInput()
 	scannerInstance := NewScannerHolder("input.txt")
-	numLinesToRead := 20
+	numLinesToRead := 50
 	for {
 		rawText, err := getInputFromFile(scannerInstance, numLinesToRead)
 		if err != nil {
