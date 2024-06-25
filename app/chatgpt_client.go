@@ -25,7 +25,7 @@ func CreateChatClient(apiKey string) *ChatGPTClient {
 }
 
 func (c *ChatGPTClient) setFixedInput() {
-	initialPromptString := "Translate the following from a Korean light novel into English in the past-tense. Maintain the formatting and do not add new information to the story when translating.";
+	initialPromptString := "Translate the following into English in the past-tense. Maintain the formatting and do not add any new information to the story when translating:";
 	firstInputPrompt := openai.ChatCompletionMessage{
 		Role:    openai.ChatMessageRoleUser,
 		Content: initialPromptString,
