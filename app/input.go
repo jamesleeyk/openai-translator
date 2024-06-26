@@ -40,7 +40,7 @@ func getInputFromFile(sh *ScannerHolder, numLines int) (string, error) {
 		if i == numLines - 1 {
 			if strings.HasSuffix(text, ".") || strings.HasSuffix(text, "!") || strings.HasSuffix(text, "?") {
 				lines = append(lines, text)
-				break;
+				return strings.Join(lines, "\n"), nil
 			} else {
 				i--
 			}

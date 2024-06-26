@@ -34,7 +34,7 @@ func (c *ChatGPTClient) setFixedInput() {
 }
 
 func (c *ChatGPTClient) makeChatGPTRequest(query openai.ChatCompletionRequest) (string, error) {
-	contextTimeout, cancel := context.WithTimeout(c.ctx, time.Minute*3)
+	contextTimeout, cancel := context.WithTimeout(c.ctx, time.Minute*5)
 	defer cancel()
 	res, err := c.Client.CreateChatCompletion(contextTimeout, query)
 	if err != nil {
