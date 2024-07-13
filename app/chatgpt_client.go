@@ -56,6 +56,7 @@ func (c *ChatGPTClient) SendMessage(msg string) (string, error) {
 	queryToSend := openai.ChatCompletionRequest{
 		Model:     openai.GPT4o,
 		Messages:  append(c.fixedInput, c.chatHistory...),
+		Temperature: 0.2,
 	}
 	response, err := c.makeChatGPTRequest(queryToSend)
 	if(err != nil ) {
