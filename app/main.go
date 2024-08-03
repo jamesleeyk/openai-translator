@@ -20,8 +20,23 @@ func main() {
 	}
 	chatClient := CreateChatClient(openAiKey)
 	chatClient.setFixedInput()
+	glossaryScanner := NewScannerHolder("glossary.txt")
 	scannerInstance := NewScannerHolder("input.txt")
+	numLinesToReadGlossary := 30
 	numLinesToRead := 50
+	for {
+		rawText, err := getInputFromFile(glossaryScanner, numLinesToReadGlossary)
+		if err != nil {
+			log.Fatalf("Scanner error: %v\n", err)
+		} else if err == nil && rawText == "" {
+			fmt.Println("Scanned glossary.")
+			break;
+		}
+		_, err = chatClient.SendMessage(rawText)
+		if err != nil {
+			log.Fatalf("Message Error: %v\n", err)
+		}
+	}
 	for {
 		rawText, err := getInputFromFile(scannerInstance, numLinesToRead)
 		if err != nil {
