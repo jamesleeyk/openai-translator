@@ -25,7 +25,7 @@ func CreateChatClient(apiKey string) *ChatGPTClient {
 }
 
 func (c *ChatGPTClient) setFixedInput() {
-	initialPromptString := "Translate word for word the following Korean light novel into English in the past tense narrative only. Translate as first-person narrative. Maintain formatting.";
+	initialPromptString := "Translate the following Korean text into English while preserving its original meaning and style. The translation should be as faithful as possible, avoiding embellishments, omissions, or rephrasings beyond what is necessary for natural readability. Ensure that all narration is consistently rendered in the past tense. Keep character dialogue natural and reflective of the original tone. Do not add or modify content.";
 	firstInputPrompt := openai.ChatCompletionMessage{
 		Role:    openai.ChatMessageRoleSystem,
 		Content: initialPromptString,
@@ -63,5 +63,6 @@ func (c *ChatGPTClient) SendMessage(msg string) (string, error) {
 		log.Fatalf("Could not get response from chatGPT api, %v", err)
 	}
 	c.addNewMessageToChatHistory(response, openai.ChatMessageRoleAssistant)
+	// fmt.Print(queryToSend, "response is this!" + response)
 	return response, nil
 }

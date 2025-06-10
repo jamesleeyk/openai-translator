@@ -22,8 +22,8 @@ func main() {
 	chatClient.setFixedInput()
 	glossaryScanner := NewScannerHolder("glossary.txt")
 	scannerInstance := NewScannerHolder("input.txt")
-	numLinesToReadGlossary := 30
-	numLinesToRead := 50
+	numLinesToReadGlossary := 100
+	numLinesToRead := 500
 	for {
 		rawText, err := getInputFromFile(glossaryScanner, numLinesToReadGlossary)
 		if err != nil {

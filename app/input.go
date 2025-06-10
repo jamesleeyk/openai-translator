@@ -36,15 +36,15 @@ func getInputFromFile(sh *ScannerHolder, numLines int) (string, error) {
 			}
 		}
 		text := sh.Scanner.Text()
-		// if last read character is not a punctuation, such as '.', '!', '?', read another line
-		if i == numLines - 1 {
-			if strings.HasSuffix(text, ".") || strings.HasSuffix(text, "!") || strings.HasSuffix(text, "?") {
-				lines = append(lines, text)
-				return strings.Join(lines, "\n"), nil
-			} else {
-				i--
-			}
-		}
+		// // if last read character is not a punctuation, such as '.', '!', '?', read another line
+		// if i == numLines - 1 {
+		// 	if strings.HasSuffix(text, ".") || strings.HasSuffix(text, "!") || strings.HasSuffix(text, "?") {
+		// 		lines = append(lines, text)
+		// 		return strings.Join(lines, "\n"), nil
+		// 	} else {
+		// 		i--
+		// 	}
+		// }
 		lines = append(lines, text)
 	}
 	return strings.Join(lines, "\n"), nil
